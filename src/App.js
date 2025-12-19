@@ -4,12 +4,12 @@ import { AnimatePresence } from "framer-motion";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import HomePage from "./pages/HomePage";
-import ProductsPage from "./pages/ProductsPage";
-import ProductDetailPage from "./pages/ProductDetailPage";
-import CartPage from "./pages/CartPage";
-import CategoriesPage from "./pages/CategoriesPage";
-import BrandsPage from "./pages/BrandsPage";
+import HomePage from "./pages/home_page/HomePage";
+import ProductsPage from "./pages/products_page/ProductsPage";
+import ProductDetailPage from "./pages/products_detail_page/ProductDetailPage";
+import CartPage from "./pages/card_page/CartPage";
+import CategoriesPage from "./pages/category_page/CategoriesPage";
+import BrandsPage from "./pages/brands_page/BrandsPage";
 import AuthModals from "./components/AuthModals";
 
 import api from "./api";

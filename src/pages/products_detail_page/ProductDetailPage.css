@@ -120,7 +120,7 @@
 }
 
 .add-to-cart-btn:disabled {
-  background-color: red; 
+  background-color: red;
   cursor: not-allowed;
   transform: none;
 }

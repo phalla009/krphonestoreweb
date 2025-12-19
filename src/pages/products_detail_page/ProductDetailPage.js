@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import api from "../api";
+import api from "../../api";
 import "./ProductDetailPage.css";
 
 const ProductDetailPage = ({ addToCart }) => {

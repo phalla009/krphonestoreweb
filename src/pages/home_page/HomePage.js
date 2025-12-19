@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import ProductGrid from "../components/ProductGrid";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import ProductCard from "../../components/ProductCard";
 
 const sliderImages = [
   "/images/slider_1.jpg",
@@ -13,6 +13,8 @@ const HomePage = ({ addToCart, productLimit = 4 }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [ratings, setRatings] = useState({});
+  const [toast, setToast] = useState("");
   const navigate = useNavigate();
 
   // Auto-change slide every 3 seconds
@@ -35,22 +37,40 @@ const HomePage = ({ addToCart, productLimit = 4 }) => {
 
         const mappedProducts = data.slice(0, productLimit).map((p) => ({
           ...p,
-          image:
-            p.images && p.images.length
-              ? `${p.images[0]}`
-              : "/images/default.png",
+          images:
+            p.images && p.images.length ? p.images : ["/images/default.png"],
         }));
 
         setProducts(mappedProducts);
+
+        // Load saved ratings
+        const savedRatings = {};
+        mappedProducts.forEach((p) => {
+          const saved = localStorage.getItem(`productRating_${p.id}`);
+          if (saved) savedRatings[p.id] = parseInt(saved, 10);
+        });
+        setRatings(savedRatings);
       } catch (err) {
         console.error(err);
       } finally {
         setLoading(false);
       }
     };
-
     fetchProducts();
   }, [productLimit]);
+
+  // Rating handler
+  const handleRate = (productId, rating) => {
+    setRatings((prev) => ({ ...prev, [productId]: rating }));
+    localStorage.setItem(`productRating_${productId}`, rating);
+    showToast(`Rated ${rating} ☆`);
+  };
+
+  // Show toast message
+  const showToast = (message) => {
+    setToast(message);
+    setTimeout(() => setToast(""), 2000);
+  };
 
   // Slider navigation
   const prevSlide = () =>
@@ -62,6 +82,9 @@ const HomePage = ({ addToCart, productLimit = 4 }) => {
 
   return (
     <div className="page active" id="home-page">
+      {/* Toast */}
+      {toast && <div className="toast-message">{toast}</div>}
+
       {/* Hero Section */}
       <motion.section
         className="hero"
@@ -84,8 +107,8 @@ const HomePage = ({ addToCart, productLimit = 4 }) => {
             exit={{ x: 100, opacity: 0 }}
             transition={{
               duration: 5,
-              repeat: Infinity, // loop forever
-              repeatType: "reverse", // go in -> out -> in ...
+              repeat: Infinity,
+              repeatType: "reverse",
               ease: "easeInOut",
             }}
           >
@@ -94,14 +117,13 @@ const HomePage = ({ addToCart, productLimit = 4 }) => {
           </motion.p>
         </div>
 
-        {/* Hero Phone with Glow & Float */}
+        {/* Hero Phone */}
         <motion.div
           className="hero-image"
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.2, type: "spring", stiffness: 120 }}
         >
-          {/* Glow effect */}
           <motion.div
             className="glow-effect"
             initial={{ opacity: 0 }}
@@ -112,7 +134,6 @@ const HomePage = ({ addToCart, productLimit = 4 }) => {
             transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
           ></motion.div>
 
-          {/* Floating phone */}
           <motion.div
             className="phone-display"
             initial={{ y: 20, opacity: 0 }}
@@ -124,7 +145,7 @@ const HomePage = ({ addToCart, productLimit = 4 }) => {
         </motion.div>
       </motion.section>
 
-      {/* Static Image Slider */}
+      {/* Slider */}
       <section className="slider">
         <div
           className="slider-wrapper"
@@ -134,7 +155,7 @@ const HomePage = ({ addToCart, productLimit = 4 }) => {
             <div
               key={index}
               style={{ minWidth: "100%", cursor: "pointer" }}
-              onClick={() => navigate("/products")} // Navigate to products page
+              onClick={() => navigate("/products")}
             >
               <img
                 src={img}
@@ -145,7 +166,6 @@ const HomePage = ({ addToCart, productLimit = 4 }) => {
           ))}
         </div>
 
-        {/* Navigation Dots */}
         <div className="slider-dots">
           {sliderImages.map((_, index) => (
             <span
@@ -156,7 +176,6 @@ const HomePage = ({ addToCart, productLimit = 4 }) => {
           ))}
         </div>
 
-        {/* Arrow Navigation */}
         <button className="arrow left" onClick={prevSlide}>
           &#10094;
         </button>
@@ -175,7 +194,20 @@ const HomePage = ({ addToCart, productLimit = 4 }) => {
         {loading ? (
           <p>Loading products...</p>
         ) : (
-          <ProductGrid products={products} addToCart={addToCart} />
+          <div className="products-grid">
+            {products.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                rating={ratings[product.id] || 0}
+                onRate={handleRate}
+                onAddToCart={(p) => {
+                  addToCart(p);
+                  showToast(`${p.name} added to cart!`);
+                }}
+              />
+            ))}
+          </div>
         )}
       </motion.section>
 
@@ -190,19 +222,15 @@ const HomePage = ({ addToCart, productLimit = 4 }) => {
           border-radius: 15px;
           box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
-
         .slider-wrapper {
           display: flex;
           transition: transform 0.8s ease-in-out;
         }
-
         .slider-image {
           min-width: 100%;
           height: 400px;
           object-fit: cover;
         }
-
-        /* Navigation Dots */
         .slider-dots {
           position: absolute;
           bottom: 15px;
@@ -211,7 +239,6 @@ const HomePage = ({ addToCart, productLimit = 4 }) => {
           justify-content: center;
           gap: 10px;
         }
-
         .dot {
           width: 12px;
           height: 12px;
@@ -220,13 +247,10 @@ const HomePage = ({ addToCart, productLimit = 4 }) => {
           cursor: pointer;
           transition: all 0.3s;
         }
-
         .dot.active {
           background: #fff;
           transform: scale(1.2);
         }
-
-        /* Arrow Navigation */
         .arrow {
           position: absolute;
           top: 50%;
@@ -241,23 +265,29 @@ const HomePage = ({ addToCart, productLimit = 4 }) => {
           z-index: 10;
           transition: background 0.3s;
         }
-
         .arrow:hover {
           background: rgba(0, 0, 0, 0.7);
         }
-
         .arrow.left {
           left: 15px;
         }
-
         .arrow.right {
           right: 15px;
         }
-
         @media (max-width: 768px) {
           .slider-image {
             height: 250px;
           }
+        }
+        .toast-message {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: #1b1b1b;
+          color: #fff;
+          padding: 10px 20px;
+          border-radius: 8px;
+          z-index: 1000;
         }
       `}</style>
     </div>

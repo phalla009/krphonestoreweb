@@ -1,46 +1,70 @@
-import React, { useState } from "react";
-import "./ProductCard.css";
+import React from "react";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
-const ProductCard = ({ product, addToCart }) => {
-  const [currentImage, setCurrentImage] = useState(0);
-
-  // images default to []
-  const images = product.images ?? [];
-
-  const nextImage = () => {
-    if (images.length > 1) {
-      setCurrentImage((prev) => (prev + 1) % images.length);
-    }
-  };
+const ProductCard = ({ product, rating, onRate, onAddToCart }) => {
+  const navigate = useNavigate();
 
   return (
-    <div className="product-card">
-      <div className="product-image" onClick={nextImage}>
-        {images.length > 0 ? (
-          <img
-            src={`http://localhost:8000${images[currentImage]}`}
-            alt={product.name}
-          />
+    <motion.div
+      key={product.id}
+      className="product-card"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -30 }}
+      transition={{ duration: 0.3 }}
+      style={{ cursor: "pointer" }}
+    >
+      {/* Product Image */}
+      <motion.div
+        className="product-image"
+        whileHover={{ scale: 1.05 }}
+        style={{ cursor: "pointer" }}
+        onClick={() => navigate(`/product/${product.id}`)}
+      >
+        {product.images?.length > 0 ? (
+          <img src={product.images[0]} alt={product.name} />
         ) : (
-          <img src="/default-image.png" alt="default" />
+          <p>No image</p>
         )}
-        {product.stock > 0 && <div className="product-badge">In Stock</div>}
-      </div>
+        <span className={`stock-badge ${product.stock > 0 ? "in" : "out"}`}>
+          {product.stock > 0 ? "In Stock" : "Out of Stock"}
+        </span>
+      </motion.div>
 
+      {/* Product Info */}
       <div className="product-info">
         <h3>{product.name}</h3>
-        <p>{product.description || ""}</p>
-        <div className="product-price">
-          <span>${product.price}</span>
-          <button
-            onClick={() => addToCart(product)}
-            disabled={product.stock === 0}
-          >
-            {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
-          </button>
+        <div className="product-price">${product.price}</div>
+
+        {/* ⭐ Rating */}
+        <div className="product-rating">
+          {[...Array(5)].map((_, i) => {
+            const ratingValue = i + 1;
+            return (
+              <span
+                key={i}
+                className={`star ${ratingValue <= rating ? "filled" : ""}`}
+                onClick={() => onRate(product.id, ratingValue)}
+              >
+                <h2>☆</h2>
+              </span>
+            );
+          })}
         </div>
+
+        {/* Add to Cart */}
+        <motion.button
+          onClick={() => onAddToCart(product)}
+          disabled={product.stock === 0}
+          whileTap={{ scale: 0.9 }}
+          whileHover={{ scale: product.stock === 0 ? 1 : 1.05 }}
+          className="add-to-cart-btn"
+        >
+          {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
+        </motion.button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
