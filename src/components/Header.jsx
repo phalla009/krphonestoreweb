@@ -58,6 +58,16 @@ const Header = ({ user, onLoginClick, onLogout, cartCount }) => {
                 Brands
               </NavLink>
             </li>
+            {/* <li>
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  isActive ? "nav-link active" : "nav-link"
+                }
+              >
+                About
+              </NavLink>
+            </li> */}
             <li>
               <NavLink
                 to="/cart"

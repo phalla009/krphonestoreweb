@@ -11,6 +11,7 @@ import CartPage from "./pages/card_page/CartPage";
 import CategoriesPage from "./pages/category_page/CategoriesPage";
 import BrandsPage from "./pages/brands_page/BrandsPage";
 import AuthModals from "./components/AuthModals";
+import AboutPage from "./pages/about_page/AboutPage";
 
 import api from "./api";
 import "./App.css";
@@ -183,6 +184,7 @@ function App() {
                 />
               }
             />
+            <Route path="/about" element={<AboutPage />} />
             <Route
               path="/cart"
               element={
