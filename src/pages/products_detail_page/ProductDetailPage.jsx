@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import api from "../../api";
 import "./ProductDetailPage.css";
 
-const ProductDetailPage = ({ addToCart }) => {
+const ProductDetailPage = ({ addToCart, user, onRequireSignIn }) => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [mainImage, setMainImage] = useState("");
@@ -25,6 +25,10 @@ const ProductDetailPage = ({ addToCart }) => {
   }, [id]);
 
   const handleAddToCart = (product) => {
+    if (!user) {
+      onRequireSignIn();
+      return;
+    }
     addToCart(product);
     setToast(`${product.name} added to cart!`);
     setTimeout(() => setToast(""), 2000);
@@ -67,7 +71,11 @@ const ProductDetailPage = ({ addToCart }) => {
             disabled={product.stock === 0}
             onClick={() => handleAddToCart(product)}
           >
-            {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
+            {product.stock === 0
+              ? "Out of Stock"
+              : !user
+              ? "Sign in to add"
+              : "Add to Cart"}
           </button>
         </div>
       </div>
