@@ -7,8 +7,11 @@ import "./ProductsPage.css";
 const ProductsPage = ({ products = [], addToCart, user, onRequireSignIn }) => {
   const [ratings, setRatings] = useState({});
   const [toast, setToast] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+
   const navigate = useNavigate();
 
+  // Load saved ratings
   useEffect(() => {
     const savedRatings = {};
     products.forEach((product) => {
@@ -18,17 +21,20 @@ const ProductsPage = ({ products = [], addToCart, user, onRequireSignIn }) => {
     setRatings(savedRatings);
   }, [products]);
 
+  // Handle rating
   const handleStarClick = (productId, rating) => {
     setRatings((prev) => ({ ...prev, [productId]: rating }));
     localStorage.setItem(`productRating_${productId}`, rating);
-    showToast(`Rated ${rating} ☆`);
+    showToast(`Rated ${rating} ★`);
   };
 
+  // Toast message
   const showToast = (message) => {
     setToast(message);
     setTimeout(() => setToast(""), 2000);
   };
 
+  // Add to cart
   const handleAddToCart = (product) => {
     if (!user) {
       onRequireSignIn();
@@ -38,14 +44,42 @@ const ProductsPage = ({ products = [], addToCart, user, onRequireSignIn }) => {
     showToast(`${product.name} added to cart!`);
   };
 
+  // 🔍 Search filter (by product name)
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="products-page">
       {toast && <div className="toast-message">{toast}</div>}
 
-      <h2 className="section-title">Products</h2>
+      {/* ===== Header ===== */}
+      <div className="products-header">
+        <h2 className="section-title">Products</h2>
+
+        {/* ===== Search Box ===== */}
+        <div className="search-container">
+          <div className="search-box">
+            <input
+              type="text"
+              placeholder="Search for products..."
+              className="search-input"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <button className="search-button">
+              <svg className="search-icon" viewBox="0 0 24 24">
+                <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.71.71l.27.28v.79l4.25 4.25a1 1 0 0 0 1.41-1.41L15.5 14zM9.5 14A4.5 4.5 0 1 1 14 9.5 4.51 4.51 0 0 1 9.5 14z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* ===== Products Grid ===== */}
       <div className="products-grid">
         <AnimatePresence>
-          {products.length === 0 ? (
+          {filteredProducts.length === 0 ? (
             <motion.div
               key="no-products"
               className="no-products"
@@ -59,8 +93,9 @@ const ProductsPage = ({ products = [], addToCart, user, onRequireSignIn }) => {
               }}
             >
               <p style={{ fontSize: "18px", marginBottom: "20px" }}>
-                No products available in this brand.
+                No products found.
               </p>
+
               <motion.button
                 onClick={() => navigate("/products")}
                 whileHover={{ scale: 1.05 }}
@@ -75,11 +110,11 @@ const ProductsPage = ({ products = [], addToCart, user, onRequireSignIn }) => {
                   fontSize: "16px",
                 }}
               >
-                Shop
+                Shop All
               </motion.button>
             </motion.div>
           ) : (
-            products.map((product) => (
+            filteredProducts.map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}
