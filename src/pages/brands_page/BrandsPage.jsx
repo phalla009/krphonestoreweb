@@ -14,6 +14,15 @@ const BrandsPage = ({ cartItems = [], addToCart, user, onRequireSignIn }) => {
   const [message, setMessage] = useState("");
   const [ratings, setRatings] = useState({}); // store local user ratings
   const navigate = useNavigate();
+  const categoryImages = {
+    apple: "/images/brands/Apple_logo_grey.png",
+    samsung: "/images/brands/samsung.png",
+    oppo: "/images/brands/oppo.png",
+    howie: "/images/brands/howie.png",
+    honor: "/images/brands/honor.png",
+    vivo: "/images/brands/vivo.png",
+    asus: "/images/brands/asus.png",
+  };
 
   // Load saved ratings from localStorage on mount
   useEffect(() => {
@@ -108,6 +117,13 @@ const BrandsPage = ({ cartItems = [], addToCart, user, onRequireSignIn }) => {
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.3 }}
             >
+              {categoryImages[category.name.toLowerCase()] && (
+                <img
+                  src={categoryImages[category.name.toLowerCase()]}
+                  alt={category.name}
+                  className="brand-image"
+                />
+              )}
               <div className="category-overlay">
                 <div className="category-name">{category.name}</div>
               </div>

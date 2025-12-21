@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./AuthModals.css";
+import { FcGoogle } from "react-icons/fc";
 
 const AuthModals = ({ showModal, onClose, onLogin, onSignup, onSwitch }) => {
   const [signInEmail, setSignInEmail] = useState("");
@@ -124,7 +125,8 @@ const AuthModals = ({ showModal, onClose, onLogin, onSignup, onSwitch }) => {
             </div>
 
             <button onClick={handleGoogleSignIn} className="google-button">
-              Continue with Google
+              <FcGoogle className="google-icon" />
+              <span>Continue with Google</span>
             </button>
 
             <p className="auth-switch">
@@ -207,7 +209,8 @@ const AuthModals = ({ showModal, onClose, onLogin, onSignup, onSwitch }) => {
             </div>
 
             <button onClick={handleGoogleSignIn} className="google-button">
-              Continue with Google
+              <FcGoogle className="google-icon" />
+              <span>Continue with Google</span>
             </button>
 
             <p className="auth-switch">

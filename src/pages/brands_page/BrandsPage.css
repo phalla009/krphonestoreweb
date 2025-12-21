@@ -113,3 +113,15 @@ h2 {
   color: #ccc;
   margin-left: 5px;
 }
+/* Brand & Category Images */
+.brand-image {
+  margin-bottom: 50px;
+  width: 100%;
+  height: 50px; /* default height */
+  object-fit: contain; /* ensure logo fits nicely */
+  background: none;
+  display: block;
+  border-radius: 12px;
+  padding: 10px; /* add some padding around logos */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}

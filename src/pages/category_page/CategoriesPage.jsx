@@ -17,7 +17,8 @@ const CategoryCard = ({ category, onClick }) => (
     <img src={category.image} alt={category.name} className="category-image" />
     <div className="category-overlay">
       <h2 className="category-name">{category.name}</h2>
-      <p className="category-count">{category.product_count} products</p>
+      <p className="category-count">{category.desc}</p>
+      {/* <p className="category-count">{category.product_count} products</p> */}
     </div>
   </motion.div>
 );
@@ -40,31 +41,49 @@ const CategoriesPage = () => {
             name: "Camera Phone",
             brands: ["Apple", "Samsung", "Howie"],
             image: "/images/image.png",
+            desc: "A camera phone is a mobile phone that is able to capture photographs and often record video using one or more built-in digital cameras.",
           },
           {
             name: "Android",
             brands: ["Vivo", "Oppo", "Horner"],
             image: "/images/android.png",
+            desc: "An Android phone is a high-tech smartphone that runs Google’s Android operating system and is made by various mobile manufacturers.",
           },
           {
             name: "Gaming Phone",
             brands: ["Asus"],
             image: "/images/gamming.png",
+            desc: "A gaming phone is a high-performance smartphone built for smooth and immersive gaming.",
           },
           {
             name: "Flagship Phones",
             brands: ["Apple"],
             image: "/images/flagship-phone.png",
+            desc: "Flagship phones are premium smartphones that feature top-tier performance, advanced technology, high-quality cameras, and the latest designs from a brand.",
           },
           {
             name: "Foldable Phones",
             brands: ["Samsung"],
             image: "/images/Foldable Phones.png",
+            desc: "Foldable phones are innovative smartphones with flexible screens that can fold, offering a larger display in a compact design.",
           },
           {
             name: "Budget Phones",
             brands: ["Vivo", "Oppo", "Horner"],
             image: "/images/Budget-Phones.png",
+            desc: "Budget phones are affordable smartphones that offer essential features and reliable performance at a low cost.",
+          },
+          {
+            name: "Accessories",
+            brands: ["Apple", "Oppo", "Horner"],
+            image: "/images/accesseries.png",
+            desc: "Accessories are additional products like chargers, headphones, cases, and cables that enhance and protect smartphones.",
+          },
+          {
+            name: "iPads",
+            brands: ["Apple", "Howie", "Sammsung"],
+            image: "/images/ipad.png",
+            desc: "iPads are tablet devices by Apple that offer a large touchscreen, powerful performance, and support for work, study, and entertainment.",
           },
         ];
 
