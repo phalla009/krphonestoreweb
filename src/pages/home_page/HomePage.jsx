@@ -279,16 +279,6 @@ const HomePage = ({ addToCart, productLimit = 4 }) => {
             height: 250px;
           }
         }
-        .toast-message {
-          position: fixed;
-          top: 20px;
-          right: 20px;
-          background: #1b1b1b;
-          color: #fff;
-          padding: 10px 20px;
-          border-radius: 8px;
-          z-index: 1000;
-        }
       `}</style>
     </div>
   );
