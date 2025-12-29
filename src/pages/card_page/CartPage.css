@@ -328,27 +328,9 @@
 }
 
 .modal-actions button.cancel:hover {
-  background-color: #2e3cf9; /* darker red on hover */
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgb(11, 64, 196);
+  box-shadow: 0 6px 12px rgba(196, 11, 11, 0.534);
 }
-.modal-actions button.ok-confirm {
-  margin-top: 20px;
-  background-color: #555555e2;
-  color: #fff;
-  padding: 10px 20px;
-  border-radius: 5px;
-  border: none;
-  width: 200px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.modal-actions button.ok-confirm:hover {
-  background-color: #848484e2;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(206, 206, 206, 0.5);
-}
+
 /* -------------------- Modal Animations -------------------- */
 @keyframes modalFadeIn {
   0% {
@@ -379,4 +361,89 @@
     padding: 8px 16px;
     font-size: 0.9rem;
   }
+}
+
+/* ----------------- Checkout Form (Modern Style) ----------------- */
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 15px;
+  padding: 10px 0;
+}
+
+.checkout-form input {
+  padding: 12px 15px;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+  background-color: #fafafa;
+}
+
+.checkout-form input::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+.checkout-form input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+  background-color: #fff;
+  outline: none;
+}
+
+.modal-actions button.ok-confirm:hover {
+  background-color: #848484e2;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(206, 206, 206, 0.5);
+}
+
+.checkout-form .cancel {
+  background-color: #f0f0f0;
+  color: #555;
+}
+
+.checkout-form .cancel:hover {
+  background-color: #e0e0e0;
+}
+
+.modal-actions button {
+  flex: 1; /* both buttons take equal width */
+  background-color: #555555e2;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal-actions button.ok-confirm {
+  background-color: #28a745;
+}
+
+.modal-actions button.ok-confirm:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 84, 36, 0.466);
+}
+
+.modal-actions button.cancel {
+  background-color: #dc3545;
+}
+
+.modal-actions button.cancel:hover {
+  background-color: #a71d2a;
+}
+
+/* ----------------- QR Code Modal ----------------- */
+.qr-code {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
 }

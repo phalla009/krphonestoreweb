@@ -7,6 +7,13 @@ import "./CartPage.css";
 const CartPage = ({ cartItems, removeFromCart, updateQuantity }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
+  const [showCheckoutModal, setShowCheckoutModal] = useState(false);
+  const [checkoutForm, setCheckoutForm] = useState({
+    fullname: "",
+    email: "",
+    phone: "",
+    address: "",
+  });
   const [showQRCodeModal, setShowQRCodeModal] = useState(false);
   const [orderTotal, setOrderTotal] = useState(0);
   const [paymentUrl, setPaymentUrl] = useState("");
@@ -21,29 +28,54 @@ const CartPage = ({ cartItems, removeFromCart, updateQuantity }) => {
 
   const formatPrice = (price) => `$${Number(price).toFixed(2)}`;
 
-  // Place order -> request Laravel API
-  const handleOrderClick = async () => {
-    if (cartItems.length === 0) {
-      alert("Your cart is empty!");
+  // Handle form input change
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setCheckoutForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Handle checkout form submit
+  const handleCheckoutSubmit = async (e) => {
+    e.preventDefault();
+
+    const { fullname, email, phone, address } = checkoutForm;
+    if (!fullname || !email || !phone || !address) {
+      alert("Please fill in all fields!");
       return;
     }
 
+    // Show QR code immediately with a temporary URL
+    const tempPaymentUrl = "https://example.com/payment-temp"; // temporary QR
+    setPaymentUrl(tempPaymentUrl);
+    setOrderTotal(total);
+    setShowCheckoutModal(false);
+    setShowQRCodeModal(true);
+    setCheckoutForm({ fullname: "", email: "", phone: "", address: "" });
+
+    // Call API in background to get real payment URL
     try {
-      const response = await fetch("http://localhost:8000/api/payment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: total }),
-      });
+      const response = await fetch(
+        "https://krstoreapi.phalla.lol/api/payment",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            amount: total,
+            fullname,
+            email,
+            phone,
+            address,
+          }),
+        }
+      );
 
       if (!response.ok) throw new Error("Payment creation failed");
 
       const data = await response.json();
-      setPaymentUrl(data.url);
-      setOrderTotal(total);
-      setShowQRCodeModal(true);
+      setPaymentUrl(data.url); // update QR code with real URL
     } catch (error) {
       console.error(error);
-      alert("Failed to generate payment QR code. Please try again.");
+      alert("Failed to generate real payment QR code. Using temporary link.");
     }
   };
 
@@ -124,7 +156,10 @@ const CartPage = ({ cartItems, removeFromCart, updateQuantity }) => {
             <p>Shipping: {shipping === 0 ? "Free" : formatPrice(shipping)}</p>
             <p>Total: {formatPrice(total)}</p>
 
-            <button className="order-button" onClick={handleOrderClick}>
+            <button
+              className="order-button"
+              onClick={() => setShowCheckoutModal(true)}
+            >
               Place Order
             </button>
           </div>
@@ -170,6 +205,74 @@ const CartPage = ({ cartItems, removeFromCart, updateQuantity }) => {
                   Cancel
                 </button>
               </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Checkout Form Modal */}
+      <AnimatePresence>
+        {showCheckoutModal && (
+          <motion.div
+            className="modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="modal-content"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <h3>Enter Your Information</h3>
+              <form onSubmit={handleCheckoutSubmit} className="checkout-form">
+                <input
+                  type="text"
+                  name="fullname"
+                  placeholder="Full Name"
+                  value={checkoutForm.fullname}
+                  onChange={handleInputChange}
+                  required
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="example@gmail.com"
+                  value={checkoutForm.email}
+                  onChange={handleInputChange}
+                  required
+                />
+                <input
+                  type="text"
+                  name="phone"
+                  placeholder="Phone Number"
+                  value={checkoutForm.phone}
+                  onChange={handleInputChange}
+                  required
+                />
+                <input
+                  type="text"
+                  name="address"
+                  placeholder="Address"
+                  value={checkoutForm.address}
+                  onChange={handleInputChange}
+                  required
+                />
+                <div className="modal-actions">
+                  <button type="submit" className="ok-confirm">
+                    Proceed
+                  </button>
+                  <button
+                    type="button"
+                    className="cancel"
+                    onClick={() => setShowCheckoutModal(false)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
             </motion.div>
           </motion.div>
         )}
