@@ -4,7 +4,12 @@ import { NavLink } from "react-router-dom";
 const Header = ({ user, onLoginClick, onLogout, cartCount }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
-
+  const displayName =
+    user?.fullName ||
+    user?.firstName ||
+    user?.username ||
+    user?.primaryEmailAddress?.emailAddress ||
+    "Profile";
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -12,7 +17,7 @@ const Header = ({ user, onLoginClick, onLogout, cartCount }) => {
   return (
     <header>
       <div className="logo">
-        <Link to="/">KR STORE</Link>
+        <Link to="/">KRPhone STORE</Link>
       </div>
 
       <div className="nav-right">
@@ -146,7 +151,7 @@ const Header = ({ user, onLoginClick, onLogout, cartCount }) => {
           <li className="mobile-auth">
             {user ? (
               <div className="user-profile">
-                <span>{user.name}</span>
+                <span>{displayName}</span>
                 <button onClick={onLogout} className="auth-btn">
                   Logout
                 </button>

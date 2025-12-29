@@ -9,7 +9,7 @@ const sliderImages = [
   "/images/slider_3.jpg",
 ];
 
-const HomePage = ({ addToCart, productLimit = 4 }) => {
+const HomePage = ({ addToCart, productLimit = 4, user, onRequireSignIn }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -202,6 +202,12 @@ const HomePage = ({ addToCart, productLimit = 4 }) => {
                 rating={ratings[product.id] || 0}
                 onRate={handleRate}
                 onAddToCart={(p) => {
+                  // 🔐 SAME AS ProductsPage
+                  if (!user) {
+                    onRequireSignIn();
+                    return;
+                  }
+
                   addToCart(p);
                   showToast(`${p.name} added to cart!`);
                 }}
