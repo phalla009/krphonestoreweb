@@ -1,18 +1,22 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { FaUserCircle } from "react-icons/fa";
+
 const Header = ({ user, onLoginClick, onLogout, cartCount }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false); // <-- Add this
   const navigate = useNavigate();
+
   const displayName =
     user?.fullName ||
     user?.firstName ||
     user?.username ||
     user?.primaryEmailAddress?.emailAddress ||
     "Profile";
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const toggleUserMenu = () => setIsUserMenuOpen(!isUserMenuOpen); // <-- Add this
 
   return (
     <header>
@@ -94,11 +98,44 @@ const Header = ({ user, onLoginClick, onLogout, cartCount }) => {
         </nav>
         <div className="user-auth">
           {user ? (
-            <div className="user-profile">
-              <span>{user.name}</span>
-              <button onClick={onLogout} className="auth-btn">
-                Logout
-              </button>
+            <div
+              className="user-profile-container"
+              style={{ position: "relative" }}
+            >
+              <FaUserCircle
+                size={32}
+                style={{ cursor: "pointer" }}
+                onClick={toggleUserMenu}
+              />
+              {isUserMenuOpen && (
+                <div
+                  className="user-dropdown"
+                  style={{
+                    position: "absolute",
+                    top: "40px",
+                    right: 0,
+                    background: "#000000ff",
+                    border: "1px solid #ccc",
+                    borderRadius: "4px",
+                    padding: "10px 12px",
+                    minWidth: "150px",
+                    boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+                    zIndex: 100,
+                  }}
+                >
+                  <p style={{ margin: 0, fontWeight: "bold" }}>{displayName}</p>
+                  <button
+                    onClick={() => {
+                      onLogout();
+                      setIsUserMenuOpen(false);
+                    }}
+                    className="auth-btn"
+                    style={{ marginTop: "8px", width: "100%" }}
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <button onClick={onLoginClick} className="auth-btn">

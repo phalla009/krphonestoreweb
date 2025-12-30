@@ -1091,7 +1091,7 @@ header {
 }
 
 .auth-btn {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(60, 60, 60, 0.567);
   color: white;
   border: none;
   padding: 8px 15px;
@@ -1102,7 +1102,7 @@ header {
 }
 
 .auth-btn:hover {
-  background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+  background: rgba(76, 76, 76, 0.766);
 }
 
 .user-profile {
