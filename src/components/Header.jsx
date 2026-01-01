@@ -149,7 +149,9 @@ const Header = ({ user, onLoginClick, onLogout, cartCount }) => {
           <span></span>
         </div>
       </div>
-
+      {isMobileMenuOpen && (
+        <div className="menu-overlay" onClick={toggleMobileMenu}></div>
+      )}
       <div className={`mobile-menu ${isMobileMenuOpen ? "open" : ""}`}>
         <ul className="mobile-menu-links">
           <li>

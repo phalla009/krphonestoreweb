@@ -172,19 +172,55 @@ header {
 
 /* Mobile menu */
 .mobile-menu {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background-color: #fff;
-  z-index: 100;
-  padding: 10px 20px;
-  flex-direction: column;
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: 320px;
+  height: 100vh;
+  background: rgba(15, 15, 19, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 80px 30px;
+  transition: right 0.35s ease;
+  z-index: 999;
+}
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
 }
 
 .mobile-menu.open {
-  display: flex;
+  right: 0;
+}
+.mobile-menu-links li {
+  opacity: 0;
+  transform: translateX(20px);
+  animation: slideInRight 0.4s forwards;
+}
+
+.mobile-menu.open .mobile-menu-links li:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.mobile-menu.open .mobile-menu-links li:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.mobile-menu.open .mobile-menu-links li:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.mobile-menu.open .mobile-menu-links li:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .mobile-menu-links {
@@ -205,7 +241,7 @@ header {
   .nav-links,
   .search-container,
   .user-auth {
-    display: none;
+    display: none !important;
   }
 
   .mobile-menu-btn {
@@ -1375,6 +1411,12 @@ footer {
 
 .footer-links a:hover {
   color: #fff;
+}
+@media (max-width: 768px) {
+  .footer-content {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
 }
 
 .social-links {
