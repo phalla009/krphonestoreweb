@@ -106,7 +106,7 @@ const Footer = () => {
               {[
                 {
                   name: "Github",
-                  url: "https://github.com/phalla009?tab=repositories",
+                  url: "https://github.com/phalla009",
                   svg: (
                     <path
                       d="M12 .5C5.73.5.5 5.73.5 12.02c0 5.1 3.29 
@@ -140,7 +140,7 @@ const Footer = () => {
                 },
                 {
                   name: "facebook",
-                  url: "https://www.facebook.com/heangphalla009",
+                  url: "https://web.facebook.com/heangphalla009",
                   svg: (
                     <path
                       d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 
@@ -150,7 +150,7 @@ const Footer = () => {
                 },
                 {
                   name: "instagram",
-                  url: "https://instagram.com/yourusername",
+                  url: "https://instagram.com/heangphallaa",
                   svg: (
                     <path
                       d="M7 2C4.2 2 2 4.2 2 7v10c0 
@@ -164,19 +164,6 @@ const Footer = () => {
                   1 0-6zm4.5-.8a1.2 1.2 0 1 
                   0 0 2.4 1.2 1.2 0 0 0 
                   0-2.4z"
-                    />
-                  ),
-                },
-                {
-                  name: "youtube",
-                  url: "https://www.youtube.com/@heangphalla",
-                  svg: (
-                    <path
-                      d="M19.6 3.2H4.4C2.9 3.2 1.6 4.5 
-                  1.6 6v12c0 1.5 1.3 2.8 2.8 
-                  2.8h15.2c1.5 0 2.8-1.3 
-                  2.8-2.8V6c0-1.5-1.3-2.8-2.8-2.8zM10 
-                  15.5V8.5l6 3.5-6 3.5z"
                     />
                   ),
                 },
