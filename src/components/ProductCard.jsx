@@ -34,7 +34,7 @@ const ProductCard = ({ product, rating, onRate, onAddToCart }) => {
 
       {/* Product Info */}
       <div className="product-info">
-        <h3>{product.name}</h3>
+       <h3 class="single-line">{product.name}</h3>
         <div className="product-price">${product.price}</div>
 
         {/* ⭐ Rating */}

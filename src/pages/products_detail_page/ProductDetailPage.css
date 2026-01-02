@@ -6,14 +6,25 @@
   border-radius: 12px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
 }
+.toast-container {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
 .toast-message {
-  background-color: #28a745;
+  background: linear-gradient(135deg, #333333 0%, #333333 100%);
   color: white;
-  padding: 10px 15px;
-  border-radius: 8px;
+  padding: 16px 24px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 400;
+  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.3);
+  animation: slideInBounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  min-width: 250px;
   text-align: center;
-  margin-bottom: 20px;
-  animation: fadeInOut 2s forwards;
 }
 
 @keyframes fadeInOut {

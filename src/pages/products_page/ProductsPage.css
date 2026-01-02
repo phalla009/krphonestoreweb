@@ -67,8 +67,13 @@
   font-weight: 600;
   margin-bottom: 6px;
 }
-
-/* -------- Star Rating -------- */
+.single-line {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 20ch;
+}
+/* -------- Star Rating --------  */
 .product-rating {
   margin: 4px 0 8px;
   font-size: 14px;
@@ -93,8 +98,8 @@
 }
 
 .product-info button {
-  background: #ffffff;
-  color: #000000;
+  background: #2c2c2c92;
+  color: #0015ffeb;
   border: none;
   width: 250px;
   padding: 8px 14px;
