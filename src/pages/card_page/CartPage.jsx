@@ -22,6 +22,8 @@ const CartPage = ({ cartItems, removeFromCart, updateQuantity }) => {
   const [orderTotal, setOrderTotal] = useState(0);
   const [paymentUrl, setPaymentUrl] = useState("");
   const [map, setMap] = useState(null);
+  const [showReceiptModal, setShowReceiptModal] = useState(false);
+  const [receiptData, setReceiptData] = useState(null);
 
   const subtotal = cartItems.reduce(
     (total, item) => total + Number(item.price) * item.quantity,
@@ -108,6 +110,17 @@ const CartPage = ({ cartItems, removeFromCart, updateQuantity }) => {
     setOrderTotal(total);
     setShowCheckoutModal(false);
     setShowQRCodeModal(true);
+    setReceiptData({
+      items: cartItems,
+      total,
+      customer: {
+        fullname,
+        email,
+        phone,
+        address,
+      },
+      orderDate: new Date().toLocaleString(),
+    });
 
     setCheckoutForm({
       fullname: "",
@@ -142,7 +155,7 @@ const CartPage = ({ cartItems, removeFromCart, updateQuantity }) => {
       setPaymentUrl(data.url);
     } catch (error) {
       console.error(error);
-      alert("Failed to generate real payment QR code. Using temporary link.");
+      // alert("Failed to generate real payment QR code. Using temporary link.");
     }
   };
 
@@ -400,9 +413,113 @@ const CartPage = ({ cartItems, removeFromCart, updateQuantity }) => {
               <div className="modal-actions">
                 <button
                   className="ok-confirm"
-                  onClick={() => setShowQRCodeModal(false)}
+                  onClick={() => {
+                    setShowQRCodeModal(false);
+                    setShowReceiptModal(true);
+                  }}
                 >
                   OK
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* Receipt Modal */}
+      {/* Receipt Modal */}
+      <AnimatePresence>
+        {showReceiptModal && receiptData && (
+          <motion.div
+            className="modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="modal-content receipt-modal"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+            >
+              <div className="receipt-header">
+                <h3>🧾 Order Receipt</h3>
+                <p className="receipt-subtitle">Thank you for your purchase!</p>
+              </div>
+
+              <div className="receipt-info">
+                <div className="receipt-info-row">
+                  <span className="receipt-label">Date:</span>
+                  <span className="receipt-value">{receiptData.orderDate}</span>
+                </div>
+                <div className="receipt-info-row">
+                  <span className="receipt-label">Name:</span>
+                  <span className="receipt-value">
+                    {receiptData.customer.fullname}
+                  </span>
+                </div>
+                <div className="receipt-info-row">
+                  <span className="receipt-label">Phone:</span>
+                  <span className="receipt-value">
+                    {receiptData.customer.phone}
+                  </span>
+                </div>
+                <div className="receipt-info-row">
+                  <span className="receipt-label">Address:</span>
+                  <span className="receipt-value">
+                    {receiptData.customer.address}
+                  </span>
+                </div>
+              </div>
+
+              <div className="receipt-divider"></div>
+
+              <div className="receipt-items">
+                <table className="receipt-table">
+                  <thead>
+                    <tr>
+                      <th align="left">Product</th>
+                      <th>Qty</th>
+                      <th align="right">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {receiptData.items.map((item) => (
+                      <tr key={item.id}>
+                        <td className="receipt-product-name">{item.name}</td>
+                        <td align="center" className="receipt-qty">
+                          {item.quantity}
+                        </td>
+                        <td align="right" className="receipt-price">
+                          {formatPrice(item.price * item.quantity)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="receipt-divider"></div>
+
+              <div className="receipt-total">
+                <span>Grand Total:</span>
+                <span className="receipt-total-amount">
+                  {formatPrice(receiptData.total)}
+                </span>
+              </div>
+
+              <div className="modal-actions">
+                <button className="print-button" onClick={() => window.print()}>
+                  🖨️ Print Receipt
+                </button>
+                <button
+                  className="ok-confirm"
+                  onClick={() => {
+                    setShowReceiptModal(false);
+                    // optional: clear cart
+                    // clearCart();
+                  }}
+                >
+                  Close
                 </button>
               </div>
             </motion.div>
