@@ -175,15 +175,7 @@ const HomePage = ({ addToCart, productLimit = 4, user, onRequireSignIn }) => {
             ></span>
           ))}
         </div>
-
-        <button className="arrow left" onClick={prevSlide}>
-          &#10094;
-        </button>
-        <button className="arrow right" onClick={nextSlide}>
-          &#10095;
-        </button>
       </section>
-
       {/* Latest Products */}
       <motion.section
         initial={{ opacity: 0, y: 50 }}
