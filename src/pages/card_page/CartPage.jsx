@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { QRCodeCanvas } from "qrcode.react";
+import html2pdf from "html2pdf.js";
+import html2canvas from "html2canvas";
 import "./CartPage.css";
 
 /* global L */
@@ -33,6 +35,20 @@ const CartPage = ({ cartItems, removeFromCart, updateQuantity }) => {
   const total = subtotal + shipping;
 
   const formatPrice = (price) => `$${Number(price).toFixed(2)}`;
+  // Auto-download receipt PDF when modal opens
+  useEffect(() => {
+    if (showReceiptModal) {
+      const element = document.getElementById("receipt");
+      if (element) {
+        html2canvas(element, { scale: 2 }).then((canvas) => {
+          const link = document.createElement("a");
+          link.href = canvas.toDataURL("image/png");
+          link.download = "receipt.png";
+          link.click();
+        });
+      }
+    }
+  }, [showReceiptModal]);
 
   // ---- MAP EFFECT ----
   useEffect(() => {
@@ -426,7 +442,6 @@ const CartPage = ({ cartItems, removeFromCart, updateQuantity }) => {
         )}
       </AnimatePresence>
       {/* Receipt Modal */}
-      {/* Receipt Modal */}
       <AnimatePresence>
         {showReceiptModal && receiptData && (
           <motion.div
@@ -436,6 +451,7 @@ const CartPage = ({ cartItems, removeFromCart, updateQuantity }) => {
             exit={{ opacity: 0 }}
           >
             <motion.div
+              id="receipt"
               className="modal-content receipt-modal"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -508,16 +524,26 @@ const CartPage = ({ cartItems, removeFromCart, updateQuantity }) => {
               </div>
 
               <div className="modal-actions">
-                <button className="print-button" onClick={() => window.print()}>
-                  🖨️ Print Receipt
+                <button
+                  className="print-button"
+                  onClick={() => {
+                    const element = document.getElementById("receipt");
+                    if (element) {
+                      html2canvas(element, { scale: 2 }).then((canvas) => {
+                        const link = document.createElement("a");
+                        link.href = canvas.toDataURL("image/png");
+                        link.download = "receipt.png";
+                        link.click();
+                      });
+                    }
+                  }}
+                >
+                  Download Receipt (PNG)
                 </button>
+
                 <button
                   className="ok-confirm"
-                  onClick={() => {
-                    setShowReceiptModal(false);
-                    // optional: clear cart
-                    // clearCart();
-                  }}
+                  onClick={() => setShowReceiptModal(false)}
                 >
                   Close
                 </button>
