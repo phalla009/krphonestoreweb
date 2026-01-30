@@ -3,7 +3,7 @@
 A modern, responsive e-commerce platform built for selling mobile devices and accessories. 
 
 ## 🚀 Live Demo
-<a href="https://krphonestore.phalla.lol/" target="_blank" rel="noopener noreferrer">View Live Demo</a>
+<a href="https://krphonestore.phalla.lol/" target="_blank" rel="noopener noreferrer">👉 Click here to view the live site</a>
 
 ---
 
