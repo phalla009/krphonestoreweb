@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 
 const Header = ({ user, onLoginClick, onLogout, cartCount }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false); // <-- Add this
-  const navigate = useNavigate();
 
   const displayName =
     user?.fullName ||
@@ -22,7 +20,11 @@ const Header = ({ user, onLoginClick, onLogout, cartCount }) => {
     <header>
       <div className="logo">
         <Link to="/">
-          <img src="/images/logo.png" alt="KRPhone Store" className="logo-img" />
+          <img
+            src="/images/logo.png"
+            alt="KRPhone Store"
+            className="logo-img"
+          />
           KRPhone STORE
         </Link>
       </div>
