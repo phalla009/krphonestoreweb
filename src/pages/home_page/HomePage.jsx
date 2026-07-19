@@ -30,7 +30,7 @@ const HomePage = ({ addToCart, productLimit = 4, user, onRequireSignIn }) => {
     const fetchProducts = async () => {
       try {
         const res = await fetch(
-          `https://krstoreapi.phalla.lol/api/products/kr?limit=${productLimit}`
+          `http://127.0.0.1:8000/api/products/kr?limit=${productLimit}`,
         );
         if (!res.ok) throw new Error("Failed to fetch products");
         const data = await res.json();
@@ -75,7 +75,7 @@ const HomePage = ({ addToCart, productLimit = 4, user, onRequireSignIn }) => {
   // Slider navigation
   const prevSlide = () =>
     setCurrentSlide(
-      currentSlide === 0 ? sliderImages.length - 1 : currentSlide - 1
+      currentSlide === 0 ? sliderImages.length - 1 : currentSlide - 1,
     );
   const nextSlide = () =>
     setCurrentSlide((currentSlide + 1) % sliderImages.length);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import ProductCard from "../../components/ProductCard";
-import "./ProductsPage.css";
+// import "./ProductsPage.css";
 
 const ProductsPage = ({ products = [], addToCart, user, onRequireSignIn }) => {
   const [ratings, setRatings] = useState({});
@@ -46,7 +46,7 @@ const ProductsPage = ({ products = [], addToCart, user, onRequireSignIn }) => {
 
   // 🔍 Search filter (by product name)
   const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    product.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (

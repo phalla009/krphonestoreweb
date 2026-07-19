@@ -21,7 +21,10 @@ const Header = ({ user, onLoginClick, onLogout, cartCount }) => {
   return (
     <header>
       <div className="logo">
-        <Link to="/">KRPhone STORE</Link>
+        <Link to="/">
+          <img src="/images/logo.png" alt="KRPhone Store" className="logo-img" />
+          KRPhone STORE
+        </Link>
       </div>
 
       <div className="nav-right">

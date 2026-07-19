@@ -113,23 +113,6 @@
   color: green;
 }
 
-.add-to-cart-btn {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.add-to-cart-btn:hover:enabled {
-  background-color: #0056b3;
-  transform: translateY(-2px);
-}
-
 .add-to-cart-btn:disabled {
   background-color: red;
   cursor: not-allowed;

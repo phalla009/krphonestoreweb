@@ -31,9 +31,7 @@ const CategoriesPage = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await fetch(
-          "https://krstoreapi.phalla.lol/api/products/kr"
-        );
+        const res = await fetch("http://127.0.0.1:8000/api/products/kr");
         const products = await res.json();
 
         const categoryRules = [
@@ -89,7 +87,7 @@ const CategoriesPage = () => {
 
         const categoriesData = categoryRules.map((cat, idx) => {
           const categoryProducts = products.filter((p) =>
-            cat.brands.includes(p.brand)
+            cat.brands.includes(p.brand),
           );
           return {
             id: idx + 1,
