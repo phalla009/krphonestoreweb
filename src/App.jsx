@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { FaTrash } from "react-icons/fa";
 import { AnimatePresence } from "framer-motion";
 import { useUser, useClerk } from "@clerk/clerk-react";
 
@@ -23,7 +22,7 @@ function App() {
   const { signOut } = useClerk();
 
   const [cartItems, setCartItems] = useState(
-    JSON.parse(localStorage.getItem("cart") || "[]")
+    JSON.parse(localStorage.getItem("cart") || "[]"),
   );
   const [showAuthModal, setShowAuthModal] = useState(null);
   const [toast, setToast] = useState("");
@@ -53,7 +52,7 @@ function App() {
         res.data.map((p) => ({
           ...p,
           images: p.images?.map((img) => `${img}`) || [],
-        }))
+        })),
       );
     } catch (err) {
       console.error("Error fetching products:", err);
@@ -75,7 +74,7 @@ function App() {
           return prev.map((item) =>
             item.id === product.id
               ? { ...item, quantity: item.quantity + 1 }
-              : item
+              : item,
           );
         } else {
           showToast(`Cannot add more than stock for ${product.name}`);
@@ -94,8 +93,8 @@ function App() {
     if (newQuantity < 1) return;
     setCartItems((prev) =>
       prev.map((item) =>
-        item.id === productId ? { ...item, quantity: newQuantity } : item
-      )
+        item.id === productId ? { ...item, quantity: newQuantity } : item,
+      ),
     );
   };
 
@@ -103,7 +102,7 @@ function App() {
   const handleOrder = (items, total, customer) => {
     if (!items.length) return;
     showToast(
-      `Order placed! Total: $${total.toFixed(2)} | Customer: ${customer.name}`
+      `Order placed! Total: $${total.toFixed(2)} | Customer: ${customer.name}`,
     );
     setCartItems([]);
   };
@@ -125,7 +124,7 @@ function App() {
           onLogout={handleLogout}
           cartCount={cartItems.reduce(
             (total, item) => total + item.quantity,
-            0
+            0,
           )}
         />
 
@@ -196,6 +195,7 @@ function App() {
                 />
               }
             />
+            <Route path="/about" element={<AboutPage />} />
           </Routes>
         </AnimatePresence>
 
